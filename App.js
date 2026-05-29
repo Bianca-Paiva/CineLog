@@ -1,9 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+// Importamos o useState para controlar informações que mudam na tela.
+// Neste caso, vamos controlar qual filme foi selecionado.
 import { useState } from 'react';
+
+// StatusBar controla a barra superior do celular no Expo.
+import { StatusBar } from 'expo-status-bar';
+
+// Importamos os componentes básicos do React Native.
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+
+// Importamção dos components criados
 import CartaoFilme from './components/CartaoFilme';
 import Titulo from './components/Titulo';
 
+// Lista principal do catálogo.
 const catalogo = [
   {
     id: 1,
@@ -119,31 +128,36 @@ const catalogo = [
 
 export default function App() {
 
-  // Estado que guarda o filme selecionado:
-  //  - começa com 'null' por que nenhum filme foi selecionado
+  // Estado que guarda o filme selecionado.
+  // Começa como null porque nenhum filme foi clicado ainda.
   const [filmeSelecionado, setFilmeSelecionado] = useState(null)
 
   // Guarda a categoria selecionada no filtro
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("todos");
 
 
-  // Filter() cria uma nova lista filtrada pelo item informado
+  // filter() cria uma nova lista apenas com os itens da categoria "filme".
   const filmes = catalogo.filter((item) => item.categoria === 'filme')
+
+  // filter() cria uma nova lista apenas com os itens da categoria "serie".
   const series = catalogo.filter((item) => item.categoria === 'serie')
+
+  // filter() cria uma nova lista apenas com os itens da categoria "anime".
   const animes = catalogo.filter((item) => item.categoria === 'anime')
 
 
-  // Função responsável por renderizar cada card
-  //  - ele recebe um item da lista e retorna um componente CartaoFilme
+  // Função responsável por renderizar cada card.
+  // Ela recebe um item da lista e retorna um componente CartaoFilme.
   const renderFilmeItem = (filme) => (
     <CartaoFilme
-      // Key ajuda a identificar cada item da lista
+      // Key ajudao React a identificar cada item da lista
       key={filme.id}
 
-      // O spread (...) envia as informações do filme como props
+      // O spread (...) envia todas as informações do filme como props
       {...filme}
 
-      // Quando clicar no botão ele salva o filme no estado
+      // Quando clicar no botão do card,
+      // esse filme será salvo no estado filmeSelecionado.
       onPress={() => setFilmeSelecionado(filme)}
     />
   )
@@ -152,16 +166,19 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="light" />
 
+      {/* Permite rolar a tela caso tenha muito conteúdo */}
       <ScrollView showsVerticalScrollIndicator={false}>
 
+        {/* Logo do app */}
         <Text style={styles.logo}>CINELOG</Text>
 
-        <View style={styles.FiltroContainer}>
+        {/* Filtro do topo */}
+        <View style={styles.filtroContainer}>
           {[
-            { key: 'todos', label: 'todos' },
-            { key: 'filme', label: 'filme' },
-            { key: 'série', label: 'série' },
-            { key: 'anime', label: 'anime' },
+            { key: 'todos', label: 'Todos' },
+            { key: 'filme', label: 'Filmes' },
+            { key: 'serie', label: 'Séries' },
+            { key: 'anime', label: 'Animes' },
           ].map((filtro) => (
             <TouchableOpacity
               key={filtro.key}
@@ -194,31 +211,28 @@ export default function App() {
             {filmes.map(renderFilmeItem)}
 
             <Titulo texto={"📺 Séries"} />
-            {filmes.map(renderFilmeItem)}
+            {series.map(renderFilmeItem)}
 
             <Titulo texto={"🎥 Animes"} />
-            {filmes.map(renderFilmeItem)}
+            {animes.map(renderFilmeItem)}
           </>
 
         ) : (
 
           <>
             <Titulo
-              texto={categoriaSelecionada === 'filme'
+              texto={
+                categoriaSelecionada === 'filme'
                 ? '🎬 Filmes'
                 : categoriaSelecionada === 'serie'
-                  ? '📺 Séries'
-                  : '🎥 Animes'
+                ? '📺 Séries'
+                : '🎥 Animes'
               }
             />
-
-            {
-              catalogo.filter((item) => item.categoria === categoriaSelecionada).map(renderFilmeItem)
-            }
+            {catalogo
+              .filter((item) => item.categoria === categoriaSelecionada).map(renderFilmeItem)}
           </>
-        )
-        }
-
+        )}
       </ScrollView>
     </View>
   );
@@ -227,7 +241,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0d0d0d',
+    backgroundColor: '#0D0D0D',
     paddingHorizontal: 20,
     paddingTop: 56,
   },
@@ -240,14 +254,14 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
 
-  FiltroContainer: {
+  filtroContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: 20,
   },
 
   filtroBotao: {
-    backgroundColor: '#1f1f1f',
+    backgroundColor: '#1F1F1F',
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 999,
@@ -256,16 +270,16 @@ const styles = StyleSheet.create({
   },
 
   filtroBotaoAtivo: {
-    backgroundColor: "#e50914"
+    backgroundColor: '#E50914'
   },
 
   filtroTexto: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontSize: 13,
     fontWeight: '600',
   },
 
   filtroTextoAtivo: {
-    color: '#fff'
+    color: '#FFFFFF'
   }
 });

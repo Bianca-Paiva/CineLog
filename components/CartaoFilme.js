@@ -12,7 +12,7 @@ export default function CartaoFilme({ poster, titulo, genero, ano, onPress }) {
                 <Text style={styles.ano}>{ano}</Text>
 
                 <Emblema categoria={genero} />
-                <Botao titulo={"Ver detalhes"} onPress={onPress} />
+                <Botao titulo="Ver detalhes" onPress={onPress} />
             </View>
         </View>
     );
@@ -28,12 +28,23 @@ const styles = StyleSheet.create({
         gap: 14,
     },
 
-    poster : {
+    poster: {
         fontSize: 40,
+    },
+
+    info: {
+        flex: 1,
+        gap: 4,
     },
 
     titulo: {
         fontSize: 16,
-        fontWeight: '600',
-    }
+        fontWeight: 'bold',
+        color: '#FFFFFF',
+    },
+
+    ano: {
+        fontSize: 13,
+        color: '#9CA3AF',
+    },
 })
