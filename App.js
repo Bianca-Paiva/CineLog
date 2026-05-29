@@ -11,6 +11,7 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-nati
 // Importamção dos components criados
 import CartaoFilme from './components/CartaoFilme';
 import Titulo from './components/Titulo';
+import ModalDetalhes from './components/ModalDetalhes';
 
 // Lista principal do catálogo.
 const catalogo = [
@@ -223,10 +224,10 @@ export default function App() {
             <Titulo
               texto={
                 categoriaSelecionada === 'filme'
-                ? '🎬 Filmes'
-                : categoriaSelecionada === 'serie'
-                ? '📺 Séries'
-                : '🎥 Animes'
+                  ? '🎬 Filmes'
+                  : categoriaSelecionada === 'serie'
+                    ? '📺 Séries'
+                    : '🎥 Animes'
               }
             />
             {catalogo
@@ -234,6 +235,22 @@ export default function App() {
           </>
         )}
       </ScrollView>
+
+      {/* 
+        ModalDetalhes recebe o filme selecionado.
+
+        Se filmeSelecionado for null:
+        o modal não aparece.
+
+        Se filmeSelecionado tiver um filme:
+        o modal aparece mostrando os detalhes.
+
+        onFechar limpa o estado e fecha o modal.
+      */}
+      <ModalDetalhes
+        filme={filmeSelecionado}
+        onFechar={() => setFilmeSelecionado(null)}
+      />
     </View>
   );
 }
